@@ -1,4 +1,4 @@
-package co.potatoproject.dirac;
+package co.potatoproject.diracplugin;
 
 import android.annotation.SuppressLint;
 import android.util.Log;

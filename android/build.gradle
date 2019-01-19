@@ -1,4 +1,4 @@
-group 'co.potatoproject.dirac'
+group 'co.potatoproject.diracplugin'
 version '1.0-SNAPSHOT'
 
 buildscript {
