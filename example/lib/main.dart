@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dirac/dirac.dart';
+import 'package:diracplugin/diracplugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
