@@ -21,7 +21,7 @@ public class DiracPlugin implements MethodCallHandler {
     }
 
     @SuppressWarnings("WeakerAccess")
-    DiracPlugin() {
+    public DiracPlugin() {
         Log.i(TAG, "Invoking init");
         diracInit();
     }
