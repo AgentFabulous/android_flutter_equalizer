@@ -24,7 +24,7 @@ class DiracSoundWrapper {
     private Method mSetSpeakerStereoMode;
     private Method mGetLevel;
 
-    DiracSoundWrapper(int priority, int audioSession) {
+    DiracSoundWrapper(int priority, int audioSession) throws RuntimeException {
         try {
             @SuppressLint("PrivateApi")
             Class<?> reflect = Class.forName("android.media.audiofx.DiracSound");

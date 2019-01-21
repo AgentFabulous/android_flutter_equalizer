@@ -116,6 +116,10 @@ public class DiracPlugin implements MethodCallHandler {
     }
 
     private void diracInit() {
-        mDirac = new DiracSoundWrapper(0, 0);
+        try {
+            mDirac = new DiracSoundWrapper(0, 0);
+        } catch (RuntimeException e){
+            Log.e(TAG, "Wrapper Creation failure! Dirac may be unsupported on this device\n" + e);
+        }
     }
 }
