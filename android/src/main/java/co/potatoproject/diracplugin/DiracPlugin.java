@@ -12,6 +12,7 @@ public class DiracPlugin implements MethodCallHandler {
     private static final String TAG = "DiracPlugin";
 
     private static DiracSoundWrapper mDirac;
+    private boolean mDiracSupported = false;
 
     public static void registerWith(Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "dirac");
@@ -32,82 +33,90 @@ public class DiracPlugin implements MethodCallHandler {
             case "getPlatformVersion":
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
                 break;
+            case "isDiracSupported":
+                diracInit();
+                result.success(mDiracSupported);
+                break;
             case "diracInit":
                 diracInit();
-                result.success(true);
+                if (!mDiracSupported || mDirac == null)
+                    result.error("exception", "Dirac unsupported", false);
+                else
+                    result.success(true);
                 break;
             case "setMusic": {
                 final int arg = call.argument("enable") ? 1 : 0;
-                mDirac.setMusic(arg);
+                if (mDirac != null) mDirac.setMusic(arg);
                 result.success(true);
                 break;
             }
             case "setHifiMode": {
                 final int arg = call.argument("mode");
-                mDirac.setHifiMode(arg);
+                if (mDirac != null) mDirac.setHifiMode(arg);
                 result.success(true);
                 break;
             }
             case "setLevel": {
                 final int band = call.argument("band");
                 final float level = Float.parseFloat(call.argument("level").toString());
-                mDirac.setLevel(band, level);
+                if (mDirac != null) mDirac.setLevel(band, level);
                 break;
             }
             case "setHeadsetType": {
                 final int arg = call.argument("type");
-                mDirac.setHeadsetType(arg);
+                if (mDirac != null) mDirac.setHeadsetType(arg);
                 result.success(true);
                 break;
             }
             case "setMovie": {
                 final int arg = call.argument("enable") ? 1 : 0;
-                mDirac.setMovie(arg);
+                if (mDirac != null) mDirac.setMovie(arg);
                 result.success(true);
                 break;
             }
             case "setMovieMode": {
                 final int arg = call.argument("mode");
-                mDirac.setMovieMode(arg);
+                if (mDirac != null) mDirac.setMovieMode(arg);
                 result.success(true);
                 break;
             }
             case "setSpeakerStereoMode": {
                 final int arg = call.argument("mode");
-                mDirac.setSpeakerStereoMode(arg);
+                if (mDirac != null) mDirac.setSpeakerStereoMode(arg);
                 result.success(true);
                 break;
             }
             case "getMusic":
-                result.success(mDirac.getMusic());
+                if (mDirac != null) result.success(mDirac.getMusic());
                 break;
             case "getHeadsetType":
-                result.success(mDirac.getHeadsetType());
+                if (mDirac != null) result.success(mDirac.getHeadsetType());
                 break;
             case "getHifiMode":
-                result.success(mDirac.getHifiMode());
+                if (mDirac != null) result.success(mDirac.getHifiMode());
                 break;
             case "getLevel": {
                 final int band = call.argument("band");
-                result.success(mDirac.getLevel(band));
+                if (mDirac != null) result.success(mDirac.getLevel(band));
                 break;
             }
             case "getMovie":
-                result.success(mDirac.getMovie());
+                if (mDirac != null) result.success(mDirac.getMovie());
                 break;
             case "getMovieMode":
-                result.success(mDirac.getMovieMode());
+                if (mDirac != null) result.success(mDirac.getMovieMode());
                 break;
             case "getSpeakerStereoMode":
-                result.success(mDirac.getSpeakerStereoMode());
+                if (mDirac != null) result.success(mDirac.getSpeakerStereoMode());
                 break;
             case "checkField": {
                 final String arg = call.argument("field");
-                result.success(mDirac.checkField(arg));
+                if (mDirac != null) result.success(mDirac.checkField(arg));
                 break;
             }
             case "release":
-                mDirac.release();
+                if (mDirac != null)
+                    mDirac.release();
                 result.success(true);
                 break;
             default:
@@ -118,8 +127,10 @@ public class DiracPlugin implements MethodCallHandler {
     private void diracInit() {
         try {
             mDirac = new DiracSoundWrapper(0, 0);
-        } catch (RuntimeException e){
+            mDiracSupported = true;
+        } catch (RuntimeException e) {
             Log.e(TAG, "Wrapper Creation failure! Dirac may be unsupported on this device\n" + e);
+            mDiracSupported = false;
         }
     }
 }

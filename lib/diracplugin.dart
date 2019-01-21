@@ -10,6 +10,11 @@ class Dirac {
     return version;
   }
 
+  static Future<bool> isDiracSupported() async {
+    final bool supported = await _channel.invokeMethod("isDiracSupported");
+    return supported;
+  }
+
   static Future<void> diracInit() async {
     await _channel.invokeMethod('diracInit');
   }
