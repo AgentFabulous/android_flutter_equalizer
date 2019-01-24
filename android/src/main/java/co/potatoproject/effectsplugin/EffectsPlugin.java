@@ -1,4 +1,4 @@
-package co.potatoproject.diracplugin;
+package co.potatoproject.effectsplugin;
 
 import android.util.Log;
 
@@ -8,19 +8,19 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-public class DiracPlugin implements MethodCallHandler {
-    private static final String TAG = "DiracPlugin";
+public class EffectsPlugin implements MethodCallHandler {
+    private static final String TAG = "EffectsPlugin";
 
     public static void registerWith(Registrar registrar) {
         final MethodChannel channel = new MethodChannel(registrar.messenger(), "dirac");
-        channel.setMethodCallHandler(new DiracPlugin());
+        channel.setMethodCallHandler(new EffectsPlugin());
         Log.i(TAG, "Registration complete.");
     }
 
     @SuppressWarnings("WeakerAccess")
-    public DiracPlugin() {
+    public EffectsPlugin() {
         Log.i(TAG, "Invoking init");
-        DiracPluginService.diracInit();
+        EffectsPluginService.diracInit();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -31,89 +31,89 @@ public class DiracPlugin implements MethodCallHandler {
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
                 break;
             case "isDiracSupported":
-                DiracPluginService.diracInit();
-                result.success(DiracPluginService.mDiracSupported);
+                EffectsPluginService.diracInit();
+                result.success(EffectsPluginService.mDiracSupported);
                 break;
             case "diracInit":
-                DiracPluginService.diracInit();
-                if (!DiracPluginService.mDiracSupported || DiracPluginService.mDirac == null)
+                EffectsPluginService.diracInit();
+                if (!EffectsPluginService.mDiracSupported || EffectsPluginService.mDirac == null)
                     result.error("exception", "Dirac unsupported", false);
                 else
                     result.success(true);
                 break;
             case "setMusic": {
                 final int arg = call.argument("enable") ? 1 : 0;
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setMusic(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setMusic(arg);
                 result.success(true);
                 break;
             }
             case "setHifiMode": {
                 final int arg = call.argument("mode");
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setHifiMode(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setHifiMode(arg);
                 result.success(true);
                 break;
             }
             case "setLevel": {
                 final int band = call.argument("band");
                 final float level = Float.parseFloat(call.argument("level").toString());
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setLevel(band, level);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setLevel(band, level);
                 break;
             }
             case "setHeadsetType": {
                 final int arg = call.argument("type");
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setHeadsetType(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setHeadsetType(arg);
                 result.success(true);
                 break;
             }
             case "setMovie": {
                 final int arg = call.argument("enable") ? 1 : 0;
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setMovie(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setMovie(arg);
                 result.success(true);
                 break;
             }
             case "setMovieMode": {
                 final int arg = call.argument("mode");
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setMovieMode(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setMovieMode(arg);
                 result.success(true);
                 break;
             }
             case "setSpeakerStereoMode": {
                 final int arg = call.argument("mode");
-                if (DiracPluginService.mDirac != null) DiracPluginService.mDirac.setSpeakerStereoMode(arg);
+                if (EffectsPluginService.mDirac != null) EffectsPluginService.mDirac.setSpeakerStereoMode(arg);
                 result.success(true);
                 break;
             }
             case "getMusic":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getMusic());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getMusic());
                 break;
             case "getHeadsetType":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getHeadsetType());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getHeadsetType());
                 break;
             case "getHifiMode":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getHifiMode());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getHifiMode());
                 break;
             case "getLevel": {
                 final int band = call.argument("band");
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getLevel(band));
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getLevel(band));
                 break;
             }
             case "getMovie":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getMovie());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getMovie());
                 break;
             case "getMovieMode":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getMovieMode());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getMovieMode());
                 break;
             case "getSpeakerStereoMode":
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.getSpeakerStereoMode());
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.getSpeakerStereoMode());
                 break;
             case "checkField": {
                 final String arg = call.argument("field");
-                if (DiracPluginService.mDirac != null) result.success(DiracPluginService.mDirac.checkField(arg));
+                if (EffectsPluginService.mDirac != null) result.success(EffectsPluginService.mDirac.checkField(arg));
                 break;
             }
             case "release":
-                if (DiracPluginService.mDirac != null)
-                    DiracPluginService.mDirac.release();
+                if (EffectsPluginService.mDirac != null)
+                    EffectsPluginService.mDirac.release();
                 result.success(true);
                 break;
             default:

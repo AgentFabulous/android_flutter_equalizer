@@ -1,4 +1,4 @@
-group 'co.potatoproject.diracplugin'
+group 'co.potatoproject.effectsplugin'
 version '1.0-SNAPSHOT'
 
 buildscript {

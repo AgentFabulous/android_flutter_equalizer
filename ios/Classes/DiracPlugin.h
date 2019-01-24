@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface DiracPlugin : NSObject<FlutterPlugin>
+@interface EffectsPlugin : NSObject<FlutterPlugin>
 @end

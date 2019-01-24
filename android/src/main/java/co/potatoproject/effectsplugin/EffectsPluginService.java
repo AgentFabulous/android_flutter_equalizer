@@ -1,16 +1,16 @@
-package co.potatoproject.diracplugin;
+package co.potatoproject.effectsplugin;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
-public class DiracPluginService extends Service {
+public class EffectsPluginService extends Service {
 
     public static DiracSoundWrapper mDirac;
+    public static EqualizerWrapper mEqualizer;
     public static boolean mDiracSupported = false;
-    private static final String TAG = "DiracPluginService";
+    private static final String TAG = "EffectsPluginService";
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -20,6 +20,7 @@ public class DiracPluginService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         diracInit();
+        eqInit();
         return START_STICKY;
     }
 
@@ -28,8 +29,14 @@ public class DiracPluginService extends Service {
             mDirac = new DiracSoundWrapper(0, 0);
             mDiracSupported = true;
         } catch (RuntimeException e) {
-            Log.e(TAG, "Wrapper Creation failure! Dirac may be unsupported on this device\n" + e);
+            Log.e(TAG, "DiracSoundWrapper Creation failure! Dirac may be unsupported on this device\n" + e);
             mDiracSupported = false;
         }
+    }
+
+    public static void eqInit() {
+        mEqualizer = new EqualizerWrapper();
+        if (mEqualizer.mEqualizerEffect == null)
+            Log.e(TAG, "Failed to create EqualizerEffect!");
     }
 }

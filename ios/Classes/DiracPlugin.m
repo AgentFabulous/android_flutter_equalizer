@@ -1,11 +1,11 @@
-#import "DiracPlugin.h"
+#import "EffectsPlugin.h"
 
-@implementation DiracPlugin
+@implementation EffectsPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"dirac"
             binaryMessenger:[registrar messenger]];
-  DiracPlugin* instance = [[DiracPlugin alloc] init];
+  EffectsPlugin* instance = [[EffectsPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 

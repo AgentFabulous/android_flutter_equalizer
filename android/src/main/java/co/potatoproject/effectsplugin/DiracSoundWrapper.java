@@ -1,4 +1,4 @@
-package co.potatoproject.diracplugin;
+package co.potatoproject.effectsplugin;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -42,7 +42,7 @@ class DiracSoundWrapper {
             try {
                 this.mGetMusic = reflect.getMethod("getMusic");
             } catch (NoSuchMethodException e) {
-                Log.e("DiracSoundWrapper", "", e);
+                Log.e("DiracSoundWrapper", "d", e);
             }
             try {
                 this.mSetHeadsetType = reflect.getMethod("setHeadsetType", Integer.TYPE);
