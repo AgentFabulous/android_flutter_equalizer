@@ -46,13 +46,13 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initData() async {
     try {
-      music = await Dirac.getMusic();
-      movie = await Dirac.getMovie();
-      headsetType = await Dirac.getHeadsetType();
-      movieMode = await Dirac.getMovieMode();
-      hifiMode = await Dirac.getHifiMode();
-      stereoMode = await Dirac.getSpeakerStereoMode();
-      for (int i = 0; i < 7; i++) b[i] = await Dirac.getLevel(i);
+      music = await FX.mDirac.getMusic();
+      movie = await FX.mDirac.getMovie();
+      headsetType = await FX.mDirac.getHeadsetType();
+      movieMode = await FX.mDirac.getMovieMode();
+      hifiMode = await FX.mDirac.getHifiMode();
+      stereoMode = await FX.mDirac.getSpeakerStereoMode();
+      for (int i = 0; i < 7; i++) b[i] = await FX.mDirac.getLevel(i);
     } on PlatformException {}
 
     if (!mounted) return;
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Dirac enabled: $music'),
+            Text('FX.mDirac enabled: $music'),
             Text('Movie: $movie'),
             Text('HeadsetType: $headsetType'),
             Text('MovieMode: $movieMode'),
@@ -94,9 +94,9 @@ class _MyAppState extends State<MyApp> {
                 int i = 0;
                 timer = Timer.periodic(Duration(seconds: 3), (Timer t) {
                   if (i == 23) timer.cancel();
-                  Dirac.setHeadsetType(i++).then((value) {
+                  FX.mDirac.setHeadsetType(i++).then((value) {
                     setState(() {
-                      Dirac.getHeadsetType().then((value) {
+                      FX.mDirac.getHeadsetType().then((value) {
                         headsetType = value;
                       });
                     });
@@ -121,9 +121,11 @@ class _MyAppState extends State<MyApp> {
                   print("Enabling profile $i");
                   List<String> bands = profiles[i++].split(',');
                   for (int j = 0; j < 7; j++) {
-                    Dirac.setLevel(j, double.parse(bands[j])).then((value) {});
+                    FX.mDirac
+                        .setLevel(j, double.parse(bands[j]))
+                        .then((value) {});
                     if (!mounted) continue;
-                    Dirac.getLevel(j).then((value) {
+                    FX.mDirac.getLevel(j).then((value) {
                       setState(() {
                         b[j] = value;
                       });
@@ -141,8 +143,8 @@ class _MyAppState extends State<MyApp> {
               child: Text("Movie test"),
               onPressed: () {
                 print("movie: ${!movie}");
-                Dirac.setMovie(!movie).then((value) {
-                  Dirac.getMovie().then((value) {
+                FX.mDirac.setMovie(!movie).then((value) {
+                  FX.mDirac.getMovie().then((value) {
                     setState(() {
                       movie = value;
                     });
@@ -154,9 +156,10 @@ class _MyAppState extends State<MyApp> {
               builder: (context) => MaterialButton(
                     child: Text("Stereo test"),
                     onPressed: () {
-                      Dirac.setSpeakerStereoMode(stereoMode == 0 ? 1 : 0)
+                      FX.mDirac
+                          .setSpeakerStereoMode(stereoMode == 0 ? 1 : 0)
                           .then((value) {
-                        Dirac.getSpeakerStereoMode().then((value) {
+                        FX.mDirac.getSpeakerStereoMode().then((value) {
                           setState(() {
                             if (value == stereoMode)
                               showSnackBar(context,
@@ -173,8 +176,10 @@ class _MyAppState extends State<MyApp> {
               builder: (context) => MaterialButton(
                     child: Text("HifiMode test"),
                     onPressed: () {
-                      Dirac.setHifiMode(hifiMode == 0 ? 1 : 0).then((value) {
-                        Dirac.getHifiMode().then((value) {
+                      FX.mDirac
+                          .setHifiMode(hifiMode == 0 ? 1 : 0)
+                          .then((value) {
+                        FX.mDirac.getHifiMode().then((value) {
                           setState(() {
                             if (value == hifiMode)
                               showSnackBar(context,
@@ -192,7 +197,7 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
             child: music ? Text("Disable") : Text("Enable"),
             onPressed: () {
-              Dirac.setMusic(!music);
+              FX.mDirac.setMusic(!music);
               initData();
             }),
       ),

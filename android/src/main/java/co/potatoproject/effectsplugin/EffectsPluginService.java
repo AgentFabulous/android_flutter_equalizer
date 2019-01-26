@@ -4,11 +4,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.media.audiofx.Equalizer;
 
 public class EffectsPluginService extends Service {
 
     public static DiracSoundWrapper mDirac;
-    public static EqualizerWrapper mEqualizer;
+    public static Equalizer mEqualizer;
     public static boolean mDiracSupported = false;
     private static final String TAG = "EffectsPluginService";
 
@@ -35,8 +36,9 @@ public class EffectsPluginService extends Service {
     }
 
     public static void eqInit() {
-        mEqualizer = new EqualizerWrapper();
-        if (mEqualizer.mEqualizerEffect == null)
+        EqualizerWrapper.initEq();
+        mEqualizer = EqualizerWrapper.getmEqualizerEffect();
+        if (mEqualizer == null || !EqualizerWrapper.ismIsEQInitialized())
             Log.e(TAG, "Failed to create EqualizerEffect!");
     }
 }

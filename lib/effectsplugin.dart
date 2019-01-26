@@ -2,90 +2,111 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-class Dirac {
-  static const MethodChannel _channel = const MethodChannel('dirac');
+class FX {
+  static Effect mDirac = new Effect(dirac: true);
+  static Effect mEqualizer = new Effect(dirac: false);
+}
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+class Effect {
+  static const MethodChannel _channel = const MethodChannel('potatoEffects');
+  bool dirac = false;
+
+  Effect({this.dirac});
+
+  Future<void> init() async {
+    await _channel.invokeMethod('init', <String, dynamic>{'dirac': dirac});
   }
 
-  static Future<bool> isDiracSupported() async {
+  Future<bool> getMusic() async {
+    final int enabled = await _channel
+        .invokeMethod('getMusic', <String, dynamic>{'dirac': dirac});
+    return enabled == 1;
+  }
+
+  Future<double> getLevel(int band) async {
+    final double level = await _channel.invokeMethod(
+        'getLevel', <String, dynamic>{'band': band, 'dirac': dirac});
+    return level;
+  }
+
+  Future<int> getNumBands() async {
+    return await _channel
+        .invokeMethod('getNumBands', <String, dynamic>{'dirac': dirac});
+  }
+
+  Future<void> setMusic(bool enable) async {
+    await _channel.invokeMethod(
+        'setMusic', <String, dynamic>{'enable': enable, 'dirac': dirac});
+  }
+
+  Future<void> setLevel(int band, double level) async {
+    await _channel.invokeMethod('setLevel',
+        <String, dynamic>{'band': band, 'level': level, 'dirac': dirac});
+  }
+
+  // Dirac Additions
+  Future<bool> isDiracSupported() async {
+    if (!dirac) return false;
     final bool supported = await _channel.invokeMethod("isDiracSupported");
     return supported;
   }
 
-  static Future<void> diracInit() async {
-    await _channel.invokeMethod('diracInit');
-  }
-
-  static Future<bool> getMusic() async {
-    final int enabled = await _channel.invokeMethod('getMusic');
-    return enabled == 1;
-  }
-
-  static Future<int> getHeadsetType() async {
+  Future<int> getHeadsetType() async {
+    if (!dirac) return 0;
     final int type = await _channel.invokeMethod('getHeadsetType');
     return type;
   }
 
-  static Future<int> getHifiMode() async {
+  Future<int> getHifiMode() async {
+    if (!dirac) return 0;
     final int mode = await _channel.invokeMethod('getHifiMode');
     return mode;
   }
 
-  static Future<bool> getMovie() async {
+  Future<bool> getMovie() async {
+    if (!dirac) return false;
     final int enable = await _channel.invokeMethod('getMovie');
     return enable == 1;
   }
 
-  static Future<int> getMovieMode() async {
+  Future<int> getMovieMode() async {
+    if (!dirac) return 0;
     final int mode = await _channel.invokeMethod('getMovieMode');
     return mode;
   }
 
-  static Future<int> getSpeakerStereoMode() async {
+  Future<int> getSpeakerStereoMode() async {
+    if (!dirac) return 0;
     final int mode = await _channel.invokeMethod('getSpeakerStereoMode');
     return mode;
   }
 
-  static Future<double> getLevel(int band) async {
-    final double level = await _channel
-        .invokeMethod('getLevel', <String, dynamic>{'band': band});
-    return level;
-  }
-
-  static Future<void> setMusic(bool enable) async {
-    await _channel
-        .invokeMethod('setMusic', <String, dynamic>{'enable': enable});
-  }
-
-  static Future<void> setLevel(int band, double level) async {
-    await _channel.invokeMethod(
-        'setLevel', <String, dynamic>{'band': band, 'level': level});
-  }
-
-  static Future<void> setHeadsetType(int type) async {
+  Future<void> setHeadsetType(int type) async {
+    if (!dirac) return;
     await _channel
         .invokeMethod('setHeadsetType', <String, dynamic>{'type': type});
   }
 
-  static Future<void> setMovie(bool enable) async {
+  Future<void> setMovie(bool enable) async {
+    if (!dirac) return;
     await _channel
         .invokeMethod('setMovie', <String, dynamic>{'enable': enable});
   }
 
-  static Future<void> setMovieMode(int mode) async {
+  Future<void> setMovieMode(int mode) async {
+    if (!dirac) return;
     await _channel
         .invokeMethod('setMovieMode', <String, dynamic>{'mode': mode});
   }
 
-  static Future<void> setSpeakerStereoMode(int mode) async {
+  Future<void> setSpeakerStereoMode(int mode) async {
+    if (!dirac) return;
     await _channel
         .invokeMethod('setSpeakerStereoMode', <String, dynamic>{'mode': mode});
   }
 
-  static Future<void> setHifiMode(int mode) async {
+  Future<void> setHifiMode(int mode) async {
+    if (!dirac) return;
     await _channel.invokeMethod('setHifiMode', <String, dynamic>{'mode': mode});
   }
 }

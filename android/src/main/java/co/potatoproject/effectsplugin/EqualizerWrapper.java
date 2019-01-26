@@ -14,7 +14,7 @@ class EqualizerWrapper {
     private final static short[] EQUALIZER_BAND_LEVEL_RANGE_DEFAULT = { -1500, 1500 };
     private final static int[] EQUALIZER_CENTER_FREQ_DEFAULT = { 60000, 230000, 910000, 3600000,
             14000000 };
-    Equalizer mEqualizerEffect = null;
+    private static Equalizer mEqualizerEffect = null;
     private static short[] mEQBandLevelRange = EQUALIZER_BAND_LEVEL_RANGE_DEFAULT;
     private static short mEQNumBands = EQUALIZER_NUMBER_BANDS_DEFAULT;
     private static int[] mEQCenterFreq = EQUALIZER_CENTER_FREQ_DEFAULT;
@@ -26,6 +26,10 @@ class EqualizerWrapper {
 
     EqualizerWrapper() {
         initEq();
+    }
+
+    public static Equalizer getmEqualizerEffect() {
+        return mEqualizerEffect;
     }
 
     public static short[] getmEQBandLevelRange() {
@@ -56,7 +60,7 @@ class EqualizerWrapper {
         return mIsEQInitialized;
     }
 
-    void initEq() {
+    public static void initEq() {
         final int session = 0;
         if (!mIsEQInitialized) {
             try {
