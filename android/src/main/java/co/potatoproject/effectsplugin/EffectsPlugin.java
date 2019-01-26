@@ -57,6 +57,7 @@ public class EffectsPlugin implements MethodCallHandler {
                 } else {
                     if (EffectsPluginService.mEqualizer != null)
                         EffectsPluginService.mEqualizer.setEnabled(arg == 1);
+                    result.success(true);
                 }
                 break;
             }
@@ -68,7 +69,7 @@ public class EffectsPlugin implements MethodCallHandler {
                         EffectsPluginService.mDirac.setLevel(band, level);
                 } else {
                     if (EffectsPluginService.mEqualizer != null)
-                        EffectsPluginService.mEqualizer.setBandLevel((short) band, (short) level);
+                        EffectsPluginService.mEqualizer.setBandLevel((short) band, (short) (level * 100));
                 }
                 break;
             }
@@ -78,7 +79,7 @@ public class EffectsPlugin implements MethodCallHandler {
                         result.success(EffectsPluginService.mDirac.getMusic());
                 } else {
                     if (EffectsPluginService.mEqualizer != null)
-                        result.success(EffectsPluginService.mEqualizer.getEnabled());
+                        result.success(EffectsPluginService.mEqualizer.getEnabled() ? 1 : 0);
                 }
                 break;
             case "getLevel": {
@@ -88,7 +89,7 @@ public class EffectsPlugin implements MethodCallHandler {
                         result.success(EffectsPluginService.mDirac.getLevel(band));
                 } else {
                     if (EffectsPluginService.mEqualizer != null)
-                        result.success(EffectsPluginService.mEqualizer.getBandLevel((short) band));
+                        result.success(((double) EffectsPluginService.mEqualizer.getBandLevel((short) band) / 100));
                 }
                 break;
             }

@@ -109,4 +109,8 @@ class Effect {
     if (!dirac) return;
     await _channel.invokeMethod('setHifiMode', <String, dynamic>{'mode': mode});
   }
+
+  Future<void> release() async {
+    await _channel.invokeMethod('release', <String, dynamic>{'dirac': dirac});
+  }
 }
