@@ -73,7 +73,7 @@ public class EffectsCallHandler implements MethodCallHandler {
                 break;
             }
             case "setHeadsetType": {
-                final int arg = call.argument("type");
+                final int arg = call.argument("hType");
                 if (EffectsPluginService.mDirac != null)
                     EffectsPluginService.mDirac.setHeadsetType(arg);
                 result.success(true);
@@ -184,7 +184,7 @@ public class EffectsCallHandler implements MethodCallHandler {
                 break;
             }
             case "setHeadsetType": {
-                final int arg = call.argument("type");
+                final int arg = call.argument("hType");
                 if (EffectsPluginService.mMi != null)
                     EffectsPluginService.mMi.setHeadsetType(arg);
                 result.success(true);
