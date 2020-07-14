@@ -6,8 +6,8 @@ import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-class DiracSoundWrapper {
-    private final Object mDiracSoundConstructor;
+class MiSoundWrapper {
+    private final Object mMiSoundConstructor;
     private Method mRelease;
     private Method mSetMusic;
     private Method mGetMusic;
@@ -23,13 +23,13 @@ class DiracSoundWrapper {
     private Method mSetMovieMode;
     private Method mSetSpeakerStereoMode;
     private Method mGetLevel;
-    private static final String TAG = "DiracSoundWrapper";
+    private static final String TAG = "MiSoundWrapper";
 
-    DiracSoundWrapper(int priority, int audioSession) throws RuntimeException {
+    MiSoundWrapper(int priority, int audioSession) throws RuntimeException {
         try {
             @SuppressLint("PrivateApi")
-            Class<?> reflect = Class.forName("android.media.audiofx.DiracSound");
-            this.mDiracSoundConstructor = reflect.getConstructor(Integer.TYPE, Integer.TYPE).newInstance(priority, audioSession);
+            Class<?> reflect = Class.forName("android.media.audiofx.MiSound");
+            this.mMiSoundConstructor = reflect.getConstructor(Integer.TYPE, Integer.TYPE).newInstance(priority, audioSession);
             try {
                 this.mRelease = reflect.getMethod("release");
             } catch (NoSuchMethodException e) {
@@ -106,18 +106,18 @@ class DiracSoundWrapper {
                 Log.e(TAG, "", e);
             }
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Not found android.media.audiofx.DiracSound", e);
+            throw new RuntimeException("Not found android.media.audiofx.MiSound", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     boolean checkField(String str) {
-        if (this.mDiracSoundConstructor == null) {
+        if (this.mMiSoundConstructor == null) {
             return false;
         }
         try {
-            this.mDiracSoundConstructor.getClass().getField(str);
+            this.mMiSoundConstructor.getClass().getField(str);
             return true;
         } catch (NoSuchFieldException e) {
             Log.e(TAG, "", e);
@@ -130,7 +130,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetHeadsetType.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetHeadsetType.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -148,7 +148,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetMovie.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetMovie.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -166,7 +166,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetMovieMode.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetMovieMode.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -184,7 +184,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetSpeakerStereoMode.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetSpeakerStereoMode.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -202,7 +202,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetMusic.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetMusic.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -220,7 +220,7 @@ class DiracSoundWrapper {
             return 0;
         }
         try {
-            return (Integer) this.mGetHifiMode.invoke(this.mDiracSoundConstructor, new Object[0]);
+            return (Integer) this.mGetHifiMode.invoke(this.mMiSoundConstructor, new Object[0]);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -238,7 +238,7 @@ class DiracSoundWrapper {
             return 0f;
         }
         try {
-            return (Float) this.mGetLevel.invoke(this.mDiracSoundConstructor, i);
+            return (Float) this.mGetLevel.invoke(this.mMiSoundConstructor, i);
         } catch (IllegalAccessException e) {
             Log.e(TAG, "", e);
             throw new RuntimeException(e);
@@ -254,7 +254,7 @@ class DiracSoundWrapper {
     void release() {
         if (this.mRelease != null) {
             try {
-                this.mRelease.invoke(this.mDiracSoundConstructor);
+                this.mRelease.invoke(this.mMiSoundConstructor);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -271,7 +271,7 @@ class DiracSoundWrapper {
     void setHeadsetType(int i) {
         if (this.mSetHeadsetType != null) {
             try {
-                this.mSetHeadsetType.invoke(this.mDiracSoundConstructor, i);
+                this.mSetHeadsetType.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -288,7 +288,7 @@ class DiracSoundWrapper {
     void setHifiMode(int i) {
         if (this.mSetHifiMode != null) {
             try {
-                this.mSetHifiMode.invoke(this.mDiracSoundConstructor, i);
+                this.mSetHifiMode.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -305,7 +305,7 @@ class DiracSoundWrapper {
     void setLevel(int i, float f) {
         if (this.mSetLevel != null) {
             try {
-                this.mSetLevel.invoke(this.mDiracSoundConstructor, i, f);
+                this.mSetLevel.invoke(this.mMiSoundConstructor, i, f);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -322,7 +322,7 @@ class DiracSoundWrapper {
     void setMusic(int i) {
         if (this.mSetMusic != null) {
             try {
-                this.mSetMusic.invoke(this.mDiracSoundConstructor, i);
+                this.mSetMusic.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -339,7 +339,7 @@ class DiracSoundWrapper {
     void setMovie(int i) {
         if (this.mSetMovie != null) {
             try {
-                this.mSetMovie.invoke(this.mDiracSoundConstructor, i);
+                this.mSetMovie.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -356,7 +356,7 @@ class DiracSoundWrapper {
     void setMovieMode(int i) {
         if (this.mSetMovieMode != null) {
             try {
-                this.mSetMovieMode.invoke(this.mDiracSoundConstructor, i);
+                this.mSetMovieMode.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
@@ -373,7 +373,7 @@ class DiracSoundWrapper {
     void setSpeakerStereoMode(int i) {
         if (this.mSetSpeakerStereoMode != null) {
             try {
-                this.mSetSpeakerStereoMode.invoke(this.mDiracSoundConstructor, i);
+                this.mSetSpeakerStereoMode.invoke(this.mMiSoundConstructor, i);
             } catch (IllegalAccessException e) {
                 Log.e(TAG, "", e);
                 throw new RuntimeException(e);
