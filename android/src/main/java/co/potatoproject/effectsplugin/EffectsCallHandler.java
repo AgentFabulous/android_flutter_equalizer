@@ -302,6 +302,7 @@ public class EffectsCallHandler implements MethodCallHandler {
             case "isMiSupported":
                 EffectsPluginService.miInit();
                 result.success(EffectsPluginService.mMiSupported);
+                break;
             default:
                 if (call.argument("type") == null)
                     result.error("exception", "No type provided!", false);
