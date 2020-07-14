@@ -41,6 +41,7 @@ public class EffectsCallHandler implements MethodCallHandler {
                 final float level = Float.parseFloat(call.argument("level").toString());
                 if (EffectsPluginService.mDirac != null)
                     EffectsPluginService.mDirac.setLevel(band, level);
+                result.success(true);
                 break;
             }
             case "getMusic":
@@ -52,7 +53,6 @@ public class EffectsCallHandler implements MethodCallHandler {
                 final int band = call.argument("band");
                 if (EffectsPluginService.mDirac != null)
                     result.success(EffectsPluginService.mDirac.getLevel(band));
-
                 break;
             }
             case "getNumBands":
@@ -152,6 +152,7 @@ public class EffectsCallHandler implements MethodCallHandler {
                 final float level = Float.parseFloat(call.argument("level").toString());
                 if (EffectsPluginService.mMi != null)
                     EffectsPluginService.mMi.setLevel(band, level);
+                result.success(true);
                 break;
             }
             case "getMusic":
