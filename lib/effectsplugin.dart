@@ -60,7 +60,6 @@ class Effect {
   }
   Future<bool> isMiSupported() async {
     if (type == EFFECT_TYPE.NONE) return false;
-    print(type);
     final bool supported = await _channel.invokeMethod("isMiSupported");
     return supported;
   }
